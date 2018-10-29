@@ -1,0 +1,26 @@
+{
+  "name": "get-in-di",
+  "version": "1.0.0-alpha",
+  "description": "JS Dependency Injection",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jonoHawkins/get-in-di.git"
+  },
+  "keywords": [
+    "dependency",
+    "injection"
+  ],
+  "author": "https://github.com/jonoHawkins",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jonoHawkins/get-in-di/issues"
+  },
+  "homepage": "https://github.com/jonoHawkins/get-in-di#readme"
+}
