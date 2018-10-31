@@ -1,10 +1,22 @@
 # Get In DI
 
-A DI container. I needed this for a project, so it's here.
+A DI container for node (>= 10).
 
 There are three concepts: definitions, references, and containers.
 
 *Definitions* wrap values and provides methods for initialising classes, and creating factories, and singletons, *References* allow definitions to be shared, and a *container* holds it together.
+
+## Install
+
+```
+$ npm i get-in-di
+```
+
+Or
+
+```
+$ yarn add get-in-di
+```
 
 ## A contrived example
 
