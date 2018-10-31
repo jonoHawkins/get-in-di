@@ -52,9 +52,8 @@ class Definition {
                 }
                 case Definition.CALL_METHOD: {
                     const method = container.resolveReference(action.method);
-                    const args = container.resolveReference(
-                        action.args.map(container.resolveReference)
-                    );
+                    const args = container.resolveReference(action.args)
+                        .map(container.resolveReference);
 
                     if (typeof value[method] !== 'function') {
                         throw new Error(`cannot call ${method}" on "${this.value}"`);
@@ -64,18 +63,16 @@ class Definition {
                     break;
                 }
                 case Definition.CONSTRUCT: {
-                    const args = container.resolveReference(
-                        action.args.map(container.resolveReference)
-                    );
+                    const args = container.resolveReference(action.args)
+                        .map(container.resolveReference);
 
                     value = new value(...args);
                     break;
                 }
                 case Definition.CALL: {
                     const context = container.resolveReference(action.context);
-                    const args = container.resolveReference(
-                        action.args.map(container.resolveReference)
-                    );
+                    const args = container.resolveReference(action.args)
+                        .map(container.resolveReference);
 
                     value = value.apply(context, args);
                     break;
@@ -83,9 +80,8 @@ class Definition {
                 case Definition.DECORATE: {
                     const fn = container.resolveReference(action.fn);
                     const context = container.resolveReference(action.context);
-                    const args = container.resolveReference(
-                        action.args.map(container.resolveReference)
-                    );
+                    const args = container.resolveReference(action.args)
+                        .map(container.resolveReference);
 
                     let nextValue = fn.apply(
                         context,
@@ -137,7 +133,7 @@ class Definition {
         return this;
     }
 
-    callMethod(method, ...args) {
+    callMethod(method, args = []) {
         this._checkCanAddAction('callMethod');
 
         this.actions.push({

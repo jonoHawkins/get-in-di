@@ -33,8 +33,6 @@ class Container {
 
     _resolveReference(reference, referenceStack = []) {
         if (reference instanceof Reference) {
-            console.log(reference, referenceStack);
-
             if (referenceStack.includes(reference.address)) {
                 throw new ReferenceRecursionError(
                     `Recursion detected while resolving reference address: "${reference.address}"`,

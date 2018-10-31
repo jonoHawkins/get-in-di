@@ -1,26 +1,39 @@
 {
   "name": "get-in-di",
-  "version": "1.0.0-alpha",
+  "version": "1.0.0",
   "description": "JS Dependency Injection",
   "main": "index.js",
   "directories": {
     "test": "tests"
   },
+  "engines": {
+    "node": ">=10.0.0"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "test-coverage": "jest --coverage"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jonoHawkins/get-in-di.git"
   },
+  "files": [
+    "index.js",
+    "src/*.js"
+  ],
   "keywords": [
     "dependency",
-    "injection"
+    "injection",
+    "get in di",
+    "di"
   ],
   "author": "https://github.com/jonoHawkins",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/jonoHawkins/get-in-di/issues"
   },
-  "homepage": "https://github.com/jonoHawkins/get-in-di#readme"
+  "homepage": "https://github.com/jonoHawkins/get-in-di#readme",
+  "devDependencies": {
+    "jest": "^23.6.0"
+  }
 }
