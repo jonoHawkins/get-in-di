@@ -5,6 +5,7 @@ const SET_PROP = Symbol('SET_PROP');
 const CALL_METHOD = Symbol('CALL_METHOD');
 const CALL = Symbol('CALL');
 const CONSTRUCT = Symbol('CONSTRUCT');
+const RESOLVE_PROPS = Symbol('RESOLVE_PROPS');
 
 class Definition {
     constructor(value, { isShared = true } = {}) {
@@ -93,6 +94,11 @@ class Definition {
                     }
                     break;
                 }
+                case Definition.RESOLVE_PROPS: {
+                    for (let [prop, val] of Object.entries(value)) {
+                        value[prop] = container.resolveReference(val);
+                    }
+                }
             }
         }
 
@@ -167,6 +173,16 @@ class Definition {
 
         return this;
     }
+
+    resolveProps() {
+        this._checkCanAddAction('resolveProps');
+
+        this.actions.push({
+            type: Definition.RESOLVE_PROPS,
+        });
+
+        return this;
+    }
 }
 
 Definition.DECORATE = DECORATE;
@@ -176,5 +192,6 @@ Definition.SET_PROP = SET_PROP;
 Definition.CALL_METHOD = CALL_METHOD;
 Definition.CONSTRUCT = CONSTRUCT;
 Definition.CONSTRUCT = CALL;
+Definition.RESOLVE_PROPS = RESOLVE_PROPS;
 
 module.exports = Definition;

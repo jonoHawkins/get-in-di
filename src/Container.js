@@ -40,10 +40,7 @@ class Container {
                 );
             }
 
-            return this.get(reference.address, [
-                ...referenceStack,
-                reference.address
-            ]);
+            return reference.resolve(this, referenceStack);
         }
 
         return reference;

@@ -32,10 +32,12 @@ container.add('db_pass', process.env.DB_PASS);
 container.add('connection', new Definition(require('db-lib')))
     // construct our connection
     .construct([
-        'url_to_db_1',
-        // use References to configure the constructor args
-        new Reference('db_user'),
-        new Reference('db_pass'),
+        new ReferenceObject({
+            url: 'url_to_db_1',
+            // use References to configure the constructor args
+            user: new Reference('db_user'),
+            password: new Reference('db_pass'),
+        })
     ])
     // our db lib doesn't use promises so lets sort that out.
     .decorate((connection) => {
@@ -145,4 +147,52 @@ container.get('random_factory'); // => 0.5616454027240336
 container.get('random_factory'); // => 0.48624780071259344
 ```
 
+### Using Objects
 
+Calling functions with argument lists is all well and good, but a lot of the time functions and classes require and object for one or more parameters. To inject values into these we need to use a `ReferenceObject`.
+
+A `ReferenceObject` takes an object where some of it's value are instance of `Reference`. When it is resolved it returns a new object with the references resolved and the remaining properties shallowly copied across.
+
+```js
+// add some values to our container
+container.add('user', 'root');
+container.add('password', 'lolcatz');
+
+
+container.add('db', new Definition(DB))
+    .construct([
+        new ReferenceObject({
+            user: new Reference('user'),
+            password: new Reference('password'),
+        })
+    ]);
+
+container.get('db') // => DB { user: 'root', password: 'lolcatz' }
+```
+
+You can also use `Definition.resolveProps` to resolve all properties any value. This is more useful if you're not dealing with an object for some reason...
+
+```js
+container.add('string', 'hello');
+container.add('number', 123);
+
+container.add('thing', new Definition({
+    foo: new Reference('string'),
+    bar: new Reference('number'),
+}))
+    .resolveProps();
+
+container.get('thing') // => { foo: "hello", bar: 123 }
+```
+
+`Definition.resolveProps` can be chained like any other definition action.
+
+### Shorthand class names
+
+We export short hand class names for less typing:
+
+| Class | Shorthand |
+|-------|-----------|
+| Definition | Def |
+| Reference | Ref |
+| ReferenceObject | RefObj |
