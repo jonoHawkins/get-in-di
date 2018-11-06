@@ -90,4 +90,17 @@ describe('Using ReferenceObject', () => {
 
         assertResult(container.get('test').inner);
     });
+
+    test(`will resolve arrays of References`, () => {
+        const foo = {};
+        container.add('foo', foo);
+        container.add('test', new Def(o => o))
+            .call([
+                new RefObj({
+                    array: [new Ref('foo')]
+                })
+            ]);
+
+        expect(container.get('test').array[0]).toBe(foo);
+    });
 });

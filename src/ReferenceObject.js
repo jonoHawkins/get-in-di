@@ -10,6 +10,12 @@ class ReferenceObject extends Reference {
 
         for (let [key, value] of Object.entries(resolvedValue)) {
             resolvedValue[key] = container._resolveReference(value, referenceStack);
+
+            if (Array.isArray(resolvedValue[key])) {
+                resolvedValue[key] = resolvedValue[key].map(value => {
+                    return container._resolveReference(value, referenceStack);
+                });
+            }
         }
 
         return resolvedValue;

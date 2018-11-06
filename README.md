@@ -157,6 +157,8 @@ A `ReferenceObject` takes an object where some of it's value are instance of `Re
 // add some values to our container
 container.add('user', 'root');
 container.add('password', 'lolcatz');
+container.add('logFile', new Definition(LogFile))
+    .construct('./log.log');
 
 
 container.add('db', new Definition(DB))
@@ -164,10 +166,14 @@ container.add('db', new Definition(DB))
         new ReferenceObject({
             user: new Reference('user'),
             password: new Reference('password'),
+            // References in arrays will also be resolved
+            logFiles: [
+                new Reference('logFile'),
+            ]
         })
     ]);
 
-container.get('db') // => DB { user: 'root', password: 'lolcatz' }
+container.get('db') // => DB { user: 'root', password: 'lolcatz', logFiles: [LogFile] }
 ```
 
 You can also use `Definition.resolveProps` to resolve all properties any value. This is more useful if you're not dealing with an object for some reason...
