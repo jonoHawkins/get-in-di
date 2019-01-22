@@ -62,6 +62,17 @@ container.add('foo', new Definition('bar'));
 container.get('foo') // => 'bar'
 ```
 
+### Call a function
+
+```js
+container.add('cache', new Definition(redis.create))
+    .call([{
+        host: '127.0.0.1',
+        port: '6379'
+    }]);
+```
+`.call` tells the definition to call the value using an optional array param as the argument list for the definition call.
+
 ### Constructing a class
 
 Here's the class were going to use:
