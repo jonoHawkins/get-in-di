@@ -8,6 +8,17 @@ class Container {
         this.resolveReference = this.resolveReference.bind(this);
         this.get = this.get.bind(this);
         this.add = this.add.bind(this);
+        this.subContainers = [];
+    }
+
+    inheritsFrom(container) {
+        if (!(container instanceof Container)) {
+            throw new Error(`container should be instanceof Container`);
+        }
+
+        this.subContainers.unshift(container);
+
+        return this;
     }
 
     add(address, definition) {
@@ -46,12 +57,22 @@ class Container {
         return reference;
     }
 
+    has(address) {
+        return this.definitions.has(address);
+    }
+
     get(address, referenceStack = [address]) {
         if (!address) {
             throw new Error(`address must be defined.`);
         }
 
-        if (!this.definitions.has(address)) {
+        if (!this.has(address)) {
+            for (const container of this.subContainers) {
+                if (container.has(address)) {
+                    return container.get(address, referenceStack);
+                }
+            }
+
             throw new Error(`A definition for "${address}" does not exist.`);
         }
 
