@@ -1,6 +1,6 @@
 {
   "name": "get-in-di",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "JS Dependency Injection",
   "main": "index.js",
   "directories": {
